@@ -19,10 +19,6 @@ namespace HarryPotterAPI.Models.DTO
 
         public string? House { get; set; }
 
-        public int WandId { get; set; }
-        public WandDTO? Wand { get; set; }
-
-
         [Required]
         public bool IsWitcher { get; set; }
     }

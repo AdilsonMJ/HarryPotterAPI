@@ -45,13 +45,26 @@ namespace HarryPotterAPI.Controllers
 
             characterModel.Wand = wand;
 
+            var isExisting = await _context.characters.AnyAsync(c =>
+                c.Name == characterModel.Name &&
+                c.Age == characterModel.Age &&
+                c.IsWitcher == characterModel.IsWitcher &&
+                c.House == characterModel.House &&
+                c.Wand.Wood == characterModel.Wand.Wood &&
+                c.Wand.Core == characterModel.Wand.Core &&
+                c.Wand.Size == characterModel.Wand.Size
+                );
+
+            if (isExisting)
+            {
+                return NoContent();
+            }
 
             await _context.characters.AddAsync(characterModel);
             await _context.SaveChangesAsync();
 
-           // return CreatedAtAction(nameof(getCharacter), new { id = characterModel.id }, characterModel);
+            return CreatedAtAction(nameof(getCharacter), new { id = characterModel.id }, characterModel);
 
-            return Ok();
         }
 
 
@@ -71,8 +84,6 @@ namespace HarryPotterAPI.Controllers
             return Ok(character);
         }
 
-
-        // HttpPut recive a object to update but need a full object.
 
         [HttpPut("{id}")]
         public IActionResult UpdateCharacter(int id, [FromBody] CharacterUpdateDTO characterUpdate)

@@ -10,7 +10,7 @@ namespace HarryPotterAPI.Profiles
         public WandProfile()
         {
             CreateMap<WandDTO, WandModel>();
-            CreateMap<WandModel, WandDTORead>();
+          
         }
         
     }

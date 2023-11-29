@@ -14,9 +14,11 @@ namespace HarryPotterAPI.Models
         [Required]
         [MaxLength(30)]
         public string Wood { get; set; }
+        
         [Required]
         [MaxLength(30)]
         public string Core { get; set; }
+
         [Required]
         [Range(5, 100)]
         public double Size { get; set; }
