@@ -1,6 +1,8 @@
 
+using System.Diagnostics;
 using HarryPotterAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace HarryPotterAPI
 {
@@ -10,15 +12,19 @@ namespace HarryPotterAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings:HarryPotter");
+            var connectionString = builder.Configuration.GetConnectionString("HPConnection");
 
             builder.Services.AddDbContext<HarryPotterContext>(opts => opts.UseMySql(connectionString,
                  ServerVersion.AutoDetect(connectionString)));
-               
-            // Add services to the container.
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+            builder.Services.AddControllers().AddNewtonsoftJson(opts => {opts.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;});
+
+
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
